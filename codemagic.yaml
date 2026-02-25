@@ -3,7 +3,7 @@ workflows:
     name: StockCast iOS Build
     max_build_duration: 60
     environment:
-      node: 20.0.0
+      node: 22.0.0
       xcode: latest
       cocoapods: default
     scripts:
