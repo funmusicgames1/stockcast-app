@@ -1,0 +1,32 @@
+{
+	"appId": "com.stockcast.app",
+	"appName": "StockCast",
+	"webDir": "www",
+	"server": {
+		"allowNavigation": [
+			"stockcast-frontend.vercel.app"
+		]
+	},
+	"ios": {
+		"contentInset": "automatic",
+		"backgroundColor": "#F7F6F2"
+	},
+	"plugins": {
+		"PushNotifications": {
+			"presentationOptions": [
+				"badge",
+				"sound",
+				"alert"
+			]
+		},
+		"SplashScreen": {
+			"launchShowDuration": 2000,
+			"backgroundColor": "#F7F6F2",
+			"showSpinner": false
+		}
+	},
+	"packageClassList": [
+		"PushNotificationsPlugin",
+		"SplashScreenPlugin"
+	]
+}
