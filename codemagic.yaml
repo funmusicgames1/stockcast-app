@@ -15,15 +15,10 @@ workflows:
           chmod +x node_modules/.bin/cap
           npx cap sync ios
 
-      - name: Install CocoaPods
-        script: |
-          cd ios/App
-          pod install
-
       - name: Build iOS app
         script: |
           xcodebuild \
-            -workspace ios/App/App.xcworkspace \
+            -workspace ios/App/App.xcodeproj/project.xcworkspace \
             -scheme App \
             -configuration Release \
             -sdk iphoneos \
@@ -39,7 +34,7 @@ workflows:
             -exportArchive \
             -archivePath build/App.xcarchive \
             -exportPath build/ipa \
-            -exportOptionsPlist ios/App/ExportOptions.plist
+            -exportOptionsPlist ExportOptions.plist
 
     artifacts:
       - build/ipa/*.ipa
