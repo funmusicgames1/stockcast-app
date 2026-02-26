@@ -402,5 +402,49 @@
 
   render();
 </script>
+
+<!-- Firebase SDK for push notifications (only active inside native app) -->
+<script type="module">
+  async function setupPushNotifications() {
+    try {
+      if (!window.Capacitor || !window.Capacitor.isNativePlatform()) return;
+
+      const { PushNotifications } = window.Capacitor.Plugins;
+      if (!PushNotifications) return;
+
+      // Request permission
+      const perm = await PushNotifications.requestPermissions();
+      if (perm.receive !== 'granted') {
+        console.log('Notification permission denied');
+        return;
+      }
+
+      await PushNotifications.register();
+
+      PushNotifications.addListener('registration', (token) => {
+        console.log('Registered for push, token:', token.value);
+        // Store token for debugging
+        localStorage.setItem('fcm_token', token.value);
+      });
+
+      PushNotifications.addListener('pushNotificationReceived', () => {
+        render(); // Refresh predictions when notification arrives
+      });
+
+      PushNotifications.addListener('pushNotificationActionPerformed', () => {
+        render(); // Refresh when user taps notification
+      });
+
+      PushNotifications.addListener('registrationError', (err) => {
+        console.error('Registration error:', err);
+      });
+
+    } catch (e) {
+      console.log('Push setup error:', e);
+    }
+  }
+
+  window.addEventListener('load', () => setTimeout(setupPushNotifications, 1500));
+</script>
 </body>
 </html>
